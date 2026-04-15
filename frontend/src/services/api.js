@@ -1,18 +1,19 @@
-import axios from 'axios';
+import axios from "axios";
 
-const api = axios.create({
-  baseURL: 'https://crm-y9vo.onrender.com/api',
+const API = axios.create({
+  baseURL: "http://localhost:5000/api",   // ✅ CORRECT
 });
 
-// Request interceptor to add the auth token to headers
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+export const analyzePrompt = (prompt) => {
+  return API.post("/analyze", { prompt });
+};
 
-export default api;
+export const getHistory = () => {
+  return API.get("/history");
+};
+
+export const deleteHistory = (id) => {
+  return API.delete(`/history/${id}`);
+};
+
+export default API;
